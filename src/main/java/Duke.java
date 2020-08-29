@@ -11,9 +11,8 @@ public class Duke {
 
         System.out.println("Hello! I'm Duke");
         System.out.println("What can i do for you?\n");
-        System.out.println("Bye.Hope to see you again soon!");
-
-        /*while (true){
+        
+        while (true){
             Scanner input = new Scanner(System.in);
             String word = input.next();
             if (word.equals("bye")){
@@ -24,6 +23,6 @@ public class Duke {
                 System.out.println(word);
                 continue;
             }
-        }*/
+        }
     }
 }
