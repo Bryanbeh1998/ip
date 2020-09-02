@@ -2,7 +2,7 @@ public class Task {
     protected String description;
     protected boolean isDone;
 
-    public void setAsDone() {
+    public void markAsDone() {
         isDone = true;
     }
 
@@ -13,6 +13,10 @@ public class Task {
 
     public String getStatusIcon() {
         return (isDone ? "\u2713" : "\u2718");
+    }
+
+    public String toString(){
+        return "[" + getStatusIcon() + "]" + description;
     }
 
 
