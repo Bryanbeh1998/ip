@@ -2,8 +2,8 @@ public class Task {
     protected String description;
     protected boolean isDone;
 
-    public void markAsDone() {
-        this.isDone = true;
+    public void setAsDone() {
+        isDone = true;
     }
 
     public Task(String description) {
@@ -15,8 +15,7 @@ public class Task {
         return (isDone ? "\u2713" : "\u2718");
     }
 
-    public String toString(){
-        return "[" + getStatusIcon() + "]" + description;
-    }
+
+
 }
 

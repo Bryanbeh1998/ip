@@ -1,49 +1,12 @@
 
+import java.net.Inet4Address;
 import java.util.Scanner;
-
+import java.util.ArrayList;
 
 
 
 public class Duke {
     public static void main(String[] args) {
-        introMessage();
-
-        Task[] taskList = new Task[100];
-        int taskCount = 0;
-
-        while (true){
-            String command = getCommand();
-
-            if (command.equals("bye")){
-                System.out.println("Bye! Hope to see you again");
-                break;
-            }
-
-            else if (command.equals("list")) {
-                System.out.println("Here are the tasks in your list:");
-                for (int i =0; i<taskCount;i++) {
-                    System.out.println((i + 1) + "." + taskList[i].toString());
-
-                }
-            }
-            else if(command.startsWith("done")) {
-
-                int index = doneIndex(command);
-                taskList[index].markAsDone();
-                System.out.println("Nice! I've marked this task as done:" + taskList[index].toString());
-            }
-
-            else {
-                for (Task task: taskList) {
-                    taskList[taskCount] = new Task(command);
-                }
-                System.out.println("added:" + taskList[taskCount].toString());
-                taskCount++;
-            }
-        }
-    }
-
-    private static void introMessage(){
         String logo = " ____        _        \n"
                 + "|  _ \\ _   _| | _____ \n"
                 + "| | | | | | | |/ / _ \\\n"
@@ -53,17 +16,46 @@ public class Duke {
 
         System.out.println("Hello! I'm Duke");
         System.out.println("What can i do for you?\n");
-    }
 
-    public static String getCommand(){
-        Scanner input  = new Scanner(System.in);
-        return input.nextLine();
-    }
+        Scanner input = new Scanner(System.in);
+        ArrayList<String> list = new ArrayList<>();
+        int i = 1;
 
-    public static int doneIndex(String command){
-        int dividerPosition = command.indexOf(" ");
-        String substring = command.substring(dividerPosition + 1);
-        return (Integer.parseInt(substring) - 1);
+        while (true){
+            String words = input.nextLine();
+            Task t = new Task(words);
+
+            if (t.description.equals("bye")){
+                System.out.println("Bye! Hope to see you again");
+                break;
+            }
+
+            else if (t.description.equals("list")) {
+
+                System.out.println("Here are the tasks in your list:");
+                for (String s : list) {
+                    System.out.println(s);
+                }
+            }
+            else if(t.description.contains("done")){
+                t.setAsDone();
+                System.out.println("Nice! I've marked this task as done");
+                String taskNumberString = t.description.replaceAll("[^0-9]",""); //extract the int
+                int taskNumber = Integer.parseInt(taskNumberString);    //convert string to int
+
+                String doneTask = list.get(taskNumber-1);   //extract the task that is done
+                int dividerPosition = doneTask.indexOf("\u2718");
+                String justTask = doneTask.substring(dividerPosition + 1,doneTask.length()); //remove the number and symbol
+
+                System.out.println(taskNumber + "." + t.getStatusIcon() + justTask); //print out the task that is done
+
+                list.set(taskNumber-1, (taskNumber)+ "." + t.getStatusIcon() + justTask);   //update the list
+            }
+            else {
+                list.add(i+ "." + t.getStatusIcon()+ words);
+                System.out.println("added: " + words);
+                i++;
+            }
+        }
     }
 }
-
