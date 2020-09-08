@@ -112,8 +112,7 @@ public class Duke {
         taskCount++;
         return taskCount;
     }
-
-
+    
     public static int doneIndex(String command){
         int dividerPosition = command.indexOf(" ");
         String substring = command.substring(dividerPosition + 1);
