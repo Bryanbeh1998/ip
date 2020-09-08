@@ -180,13 +180,8 @@ public class Duke {
         taskCount++;
         return taskCount;
     }
-<<<<<<< HEAD
-    
-    public static int doneIndex(String command){
-=======
 
     public static int doneIndex(String command) {
->>>>>>> branch-Level-5
         int dividerPosition = command.indexOf(" ");
         String substring = command.substring(dividerPosition + 1);
         return (Integer.parseInt(substring) - 1);
