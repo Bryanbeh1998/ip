@@ -80,6 +80,21 @@ public class Duke {
         System.out.println("Bye! Hope to see you again");
     }
 
+    private static void printNullCommandMessage(String commandType) {
+        System.out.println(":( OOPS! The description of " + commandType + "cannot be empty!");
+    }
+
+    private static void printLine() {
+        System.out.println("---------------------------");
+    }
+
+    private static void printList(Task[] taskList, int taskCount) {
+        System.out.println("Here are the tasks in your list:");
+        for (int i = 0; i < taskCount; i++) {
+            System.out.println((i + 1) + "." + taskList[i].toString());
+        }
+    }
+
     private static String getCommandType(String command) {
 
         String commandType;
@@ -101,22 +116,7 @@ public class Duke {
 
         return commandTask;
     }
-
-    private static void printNullCommandMessage(String commandType) {
-        System.out.println(":( OOPS! The description of " + commandType + "cannot be empty!");
-    }
-
-    private static void printLine() {
-        System.out.println("---------------------------");
-    }
-
-    private static void printList(Task[] taskList, int taskCount) {
-        System.out.println("Here are the tasks in your list:");
-        for (int i = 0; i < taskCount; i++) {
-            System.out.println((i + 1) + "." + taskList[i].toString());
-        }
-    }
-
+    
     public static String getCommand() {
         Scanner input = new Scanner(System.in);
         return input.nextLine();
