@@ -1,6 +1,12 @@
+package duke;
 
 import java.util.Scanner;
-
+import duke.tasks.Deadline;
+import duke.tasks.Event;
+import duke.tasks.Task;
+import duke.tasks.Todo;
+import duke.exceptions.NullCommandException;
+import duke.exceptions.InvalidCommandException;
 
 public class Duke {
 
@@ -71,7 +77,7 @@ public class Duke {
                 + "|____/ \\__,_|_|\\_\\___|\n";
         System.out.println("Hello from\n" + logo);
         printLine();
-        System.out.println("Hello! I'm Duke");
+        System.out.println("Hello! I'm duke.Duke");
         System.out.println("What can i do for you?\n");
         printLine();
     }
