@@ -1,9 +1,11 @@
-
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Duke {
-
+    //constants
     public static final String BYE_COMMAND = "bye";
     public static final String LIST_COMMAND = "list";
     public static final String DONE_COMMAND = "done";
@@ -19,11 +21,11 @@ public class Duke {
     public static void main(String[] args) throws InvalidCommandException {
 
         printIntroMessage();
+        File f = new File("list/data.txt");
 
         while (isProgramRunning) {
 
             String command = getCommand();
-            String commandTask = getCommandTask(command);
             String commandType = getCommandType(command);
 
             try {
@@ -42,29 +44,22 @@ public class Duke {
                     break;
 
                 case (TODO_COMMAND):
-                    taskCount = todoCommand(taskList, taskCount, commandTask, commandType);
-                    break;
-
                 case (DEADLINE_COMMAND):
-                    taskCount = deadlineCommand(taskList, taskCount, commandTask, command);
-                    break;
-
                 case (EVENT_COMMAND):
-                    taskCount = eventCommand(taskList, taskCount, commandTask, commandType);
+                    taskCount = addCommand(taskList, taskCount,commandType,command);
                     break;
                 case (DELETE_COMMAND):
                     taskCount = deleteCommand(taskList, taskCount, command);
                     break;
-
-                default:
-                    throw new InvalidCommandException("SORRY I DO NOT UNDERSTAND THIS");
+                default :
+                    throw new InvalidCommandException("SORRY BUT THIS COMMAND CANNOT BE ACCEPTED!");
+                    //System.out.print("TOUGH, I DO NOT KNOW WHAT IS THAT COMMAND!\n");
                 }
             } catch (NullCommandException e) {
                 printNullCommandMessage(commandType);
             }
         }
     }
-
 
     private static void printIntroMessage() {
         String logo = " ____        _        \n"
@@ -83,15 +78,18 @@ public class Duke {
         System.out.println("Bye! Hope to see you again");
     }
 
+    private static void printAddedNote(ArrayList<Task> taskList, int taskCount){
+        System.out.println("Got it. I've added this task:" + taskList.get(taskCount).toString());
+    }
 
-    private static void printDeleted(ArrayList<Task> taskList, int taskCount, String command, int index) {
-        System.out.println("NOTED. I HAVE REMOVED THIS TASK FROM YOUR LIST: \n");
+    private static void printDeleted(ArrayList<Task> taskList, int taskCount, int index) {
+        System.out.println("Noted! I have removed this task from your list: ");
         System.out.println(taskList.get(index).toString());
-        System.out.println("NOW YOU ONLY HAVE " + taskCount + " TASKS IN YOUR LIST!");
+        System.out.println("Now only you have " + taskCount + " task(s) in your list");
     }
 
     private static void printNullCommandMessage(String commandType) {
-        System.out.println(":( OOPS! The description of " + commandType + "cannot be empty!");
+        System.out.println(":( OOPS! The description of " + commandType + " cannot be empty!");
     }
 
     private static void printLine() {
@@ -108,12 +106,11 @@ public class Duke {
     private static String getCommandType(String command) {
 
         String commandType;
+        String[] arr = command.split(" ");
 
         if (command.contains(" ")) {
 
-            int indexOfSpace = command.indexOf(" ");
-            commandType = command.substring(0, indexOfSpace);
-
+            commandType = arr[0];
         } else {
             commandType = command;
         }
@@ -121,11 +118,19 @@ public class Duke {
     }
 
     private static String getCommandTask(String command) {
-        int indexOfSpace = command.indexOf(" ");
-        String commandTask = command.substring(indexOfSpace + 1);
+
+        String commandTask;
+        String[] arr = command.split(" ");
+        if (arr.length > 1) {
+            int indexOfTask = command.indexOf(" ");
+            commandTask = command.substring(indexOfTask);
+        } else {
+            commandTask = null;
+        }
 
         return commandTask;
     }
+
 
     public static String getCommand() {
         Scanner input = new Scanner(System.in);
@@ -139,51 +144,28 @@ public class Duke {
         System.out.println("Nice! I've marked this task as done:" + taskList.get(index).toString());
     }
 
-    public static int todoCommand(ArrayList<Task> taskList, int taskCount, String commandTask, String commandType) throws NullCommandException {
-        int counter = taskCount;
+    public static int addCommand(ArrayList<Task> taskList, int taskCount, String commandType, String command) throws NullCommandException {
+        String commandTask = getCommandTask(command);
+
         if (commandTask == null) {
             throw new NullCommandException();
-        } else {
+
+        }else if (commandType.equals(TODO_COMMAND) && commandTask != null) {
             taskList.add(new Todo(commandTask));
-        }
 
-
-        System.out.println("Got it. I've add this task:" + taskList.get(taskCount).toString());
-        taskCount++;
-        return taskCount;
-    }
-
-
-    public static int deadlineCommand(ArrayList<Task> taskList, int taskCount, String commandTask, String commandType) throws NullCommandException {
-
-        if (commandTask == null) {
-            throw new NullCommandException();
-        } else {
+        } else if (commandType.equals(DEADLINE_COMMAND) && commandTask != null) {
             int indexOfSlash = commandTask.indexOf("/");
             String task = commandTask.substring(0, indexOfSlash - 1);
             String by = commandTask.substring(indexOfSlash + 4);
-
             taskList.add(new Deadline(task, by));
-        }
 
-        System.out.println("Got it. I've added this task:" + taskList.get(taskCount).toString());
-        taskCount++;
-        return taskCount;
-    }
-
-    public static int eventCommand(ArrayList<Task> taskList, int taskCount, String commandTask, String commandType) throws NullCommandException {
-
-        if (commandTask == null) {
-            throw new NullCommandException();
-        } else {
+        } else if (commandType.equals(EVENT_COMMAND) && commandTask != null) {
             int indexOfSlash = commandTask.indexOf("/");
             String event = commandTask.substring(0, indexOfSlash - 1);
             String by = commandTask.substring(indexOfSlash + 4);
             taskList.add(new Event(event, by));
         }
-
-
-        System.out.println("Got it. I've add this task:" + taskList.get(taskCount).toString());
+        printAddedNote(taskList,taskCount);
         taskCount++;
         return taskCount;
     }
@@ -193,7 +175,7 @@ public class Duke {
         if (index <= taskCount) {
             taskList.remove(index);
             taskCount--;
-            printDeleted(taskList, taskCount, command, index);
+            printDeleted(taskList, taskCount, index);
         }
         return taskCount;
     }
@@ -202,6 +184,12 @@ public class Duke {
         int dividerPosition = command.indexOf(" ");
         String substring = command.substring(dividerPosition + 1);
         return (Integer.parseInt(substring) - 1);
+    }
+
+    public static void writeToFile(String filename, String textToAdd) throws IOException {
+        FileWriter fw = new FileWriter(filename);
+        fw.write(textToAdd);
+        fw.close();
     }
 
 }
