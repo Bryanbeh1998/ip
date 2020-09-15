@@ -23,6 +23,7 @@ public class Duke {
         printIntroMessage();
         File f = new File("list/data.txt");
 
+
         while (isProgramRunning) {
 
             String command = getCommand();
@@ -146,6 +147,8 @@ public class Duke {
 
     public static int addCommand(ArrayList<Task> taskList, int taskCount, String commandType, String command) throws NullCommandException {
         String commandTask = getCommandTask(command);
+        String fileName = "list/data.txt";
+
 
         if (commandTask == null) {
             throw new NullCommandException();
@@ -165,6 +168,14 @@ public class Duke {
             String by = commandTask.substring(indexOfSlash + 4);
             taskList.add(new Event(event, by));
         }
+
+        try {
+            writeToFile(fileName,taskList);
+        } catch (IOException e) {
+            System.out.println("Something went wrong");
+        }
+
+
         printAddedNote(taskList,taskCount);
         taskCount++;
         return taskCount;
@@ -186,12 +197,11 @@ public class Duke {
         return (Integer.parseInt(substring) - 1);
     }
 
-    public static void writeToFile(String filename, String textToAdd) throws IOException {
+    public static void writeToFile(String filename, ArrayList<Task> taskList) throws IOException {
         FileWriter fw = new FileWriter(filename);
-        fw.write(textToAdd);
+        fw.write(String.valueOf(taskList));
         fw.close();
     }
-
 }
 
 
