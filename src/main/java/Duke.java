@@ -168,14 +168,6 @@ public class Duke {
             String by = commandTask.substring(indexOfSlash + 4);
             taskList.add(new Event(event, by));
         }
-
-        try {
-            writeToFile(fileName,taskList);
-        } catch (IOException e) {
-            System.out.println("Something went wrong");
-        }
-
-
         printAddedNote(taskList,taskCount);
         taskCount++;
         return taskCount;
