@@ -1,6 +1,6 @@
 
 import java.util.Scanner;
-
+import java.util.ArrayList;
 
 public class Duke {
 
@@ -10,15 +10,15 @@ public class Duke {
     public static final String TODO_COMMAND = "todo";
     public static final String DEADLINE_COMMAND = "deadline";
     public static final String EVENT_COMMAND = "event";
+    public static final String DELETE_COMMAND = "delete";
 
+    public static ArrayList<Task> taskList = new ArrayList<>();
+    public static boolean isProgramRunning = true;
+    public static int taskCount = 0;
 
     public static void main(String[] args) throws InvalidCommandException {
 
         printIntroMessage();
-
-        Task[] taskList = new Task[100];
-        int taskCount = 0;
-        boolean isProgramRunning = true;
 
         while (isProgramRunning) {
 
@@ -52,9 +52,12 @@ public class Duke {
                 case (EVENT_COMMAND):
                     taskCount = eventCommand(taskList, taskCount, commandTask, commandType);
                     break;
+                case (DELETE_COMMAND):
+                    taskCount = deleteCommand(taskList, taskCount, command);
+                    break;
 
                 default:
-                    System.out.println("Tough, i do not know what this is!");
+                    throw new InvalidCommandException("SORRY I DO NOT UNDERSTAND THIS");
                 }
             } catch (NullCommandException e) {
                 printNullCommandMessage(commandType);
@@ -80,6 +83,13 @@ public class Duke {
         System.out.println("Bye! Hope to see you again");
     }
 
+
+    private static void printDeleted(ArrayList<Task> taskList, int taskCount, String command, int index) {
+        System.out.println("NOTED. I HAVE REMOVED THIS TASK FROM YOUR LIST: \n");
+        System.out.println(taskList.get(index).toString());
+        System.out.println("NOW YOU ONLY HAVE " + taskCount + " TASKS IN YOUR LIST!");
+    }
+
     private static void printNullCommandMessage(String commandType) {
         System.out.println(":( OOPS! The description of " + commandType + "cannot be empty!");
     }
@@ -88,10 +98,10 @@ public class Duke {
         System.out.println("---------------------------");
     }
 
-    private static void printList(Task[] taskList, int taskCount) {
+    private static void printList(ArrayList<Task> taskList, int taskCount) {
         System.out.println("Here are the tasks in your list:");
         for (int i = 0; i < taskCount; i++) {
-            System.out.println((i + 1) + "." + taskList[i].toString());
+            System.out.println((i + 1) + "." + taskList.get(i).toString());
         }
     }
 
@@ -116,76 +126,84 @@ public class Duke {
 
         return commandTask;
     }
-    
+
     public static String getCommand() {
         Scanner input = new Scanner(System.in);
         return input.nextLine();
     }
 
-    public static void doneCommand(Task[] taskList, String command) {
-        int index = doneIndex(command);
-        taskList[index].markAsDone();
+    public static void doneCommand(ArrayList<Task> taskList, String command) {
+        int index = indexOfTask(command);
+        taskList.get(index).markAsDone();
 
-        System.out.println("Nice! I've marked this task as done:" + taskList[index].toString());
+        System.out.println("Nice! I've marked this task as done:" + taskList.get(index).toString());
     }
 
-    public static int todoCommand(Task[] taskList, int taskCount, String commandTask, String commandType) throws NullCommandException {
-
+    public static int todoCommand(ArrayList<Task> taskList, int taskCount, String commandTask, String commandType) throws NullCommandException {
+        int counter = taskCount;
         if (commandTask == null) {
             throw new NullCommandException();
         } else {
-            for (Task task : taskList) {
-                taskList[taskCount] = new Todo(commandTask);
-            }
-
-            System.out.println("Got it. I've add this task:" + taskList[taskCount].toString());
-            taskCount++;
-            return taskCount;
+            taskList.add(new Todo(commandTask));
         }
+
+
+        System.out.println("Got it. I've add this task:" + taskList.get(taskCount).toString());
+        taskCount++;
+        return taskCount;
     }
 
-    public static int deadlineCommand(Task[] taskList, int taskCount, String commandTask, String commandType) throws NullCommandException {
+
+    public static int deadlineCommand(ArrayList<Task> taskList, int taskCount, String commandTask, String commandType) throws NullCommandException {
 
         if (commandTask == null) {
             throw new NullCommandException();
         } else {
             int indexOfSlash = commandTask.indexOf("/");
-            String task = commandTask.substring(0,indexOfSlash - 1);
+            String task = commandTask.substring(0, indexOfSlash - 1);
             String by = commandTask.substring(indexOfSlash + 4);
 
-            for (Task tasks : taskList) {
-                taskList[taskCount] = new Deadline(task, by);
-            }
+            taskList.add(new Deadline(task, by));
         }
-        System.out.println("Got it. I've added this task:" + taskList[taskCount].toString());
+
+        System.out.println("Got it. I've added this task:" + taskList.get(taskCount).toString());
         taskCount++;
         return taskCount;
     }
 
-    public static int eventCommand(Task[] taskList, int taskCount, String commandTask, String commandType) throws NullCommandException {
+    public static int eventCommand(ArrayList<Task> taskList, int taskCount, String commandTask, String commandType) throws NullCommandException {
 
         if (commandTask == null) {
             throw new NullCommandException();
         } else {
             int indexOfSlash = commandTask.indexOf("/");
-            String event = commandTask.substring(0,indexOfSlash - 1);
+            String event = commandTask.substring(0, indexOfSlash - 1);
             String by = commandTask.substring(indexOfSlash + 4);
-            for (Task task : taskList) {
-                taskList[taskCount] = new Event(event, by);
-
-            }
+            taskList.add(new Event(event, by));
         }
 
-        System.out.println("Got it. I've add this task:" + taskList[taskCount].toString());
+
+        System.out.println("Got it. I've add this task:" + taskList.get(taskCount).toString());
         taskCount++;
         return taskCount;
     }
 
-    public static int doneIndex(String command) {
+    public static int deleteCommand(ArrayList<Task> taskList, int taskCount, String command) {
+        int index = indexOfTask(command);
+        if (index <= taskCount) {
+            taskList.remove(index);
+            taskCount--;
+            printDeleted(taskList, taskCount, command, index);
+        }
+        return taskCount;
+    }
+
+    public static int indexOfTask(String command) {
         int dividerPosition = command.indexOf(" ");
         String substring = command.substring(dividerPosition + 1);
         return (Integer.parseInt(substring) - 1);
     }
+
 }
 
 

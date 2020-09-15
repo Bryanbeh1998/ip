@@ -15,7 +15,7 @@ public class Task {
         return (isDone ? "\u2713" : "\u2718");
     }
 
-    public String toString(){
+    public String toString() {
         return "[" + getStatusIcon() + "]" + description;
     }
 
