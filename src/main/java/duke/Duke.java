@@ -13,7 +13,6 @@ public class Duke {
     public static final String DEADLINE_COMMAND = "deadline";
     public static final String EVENT_COMMAND = "event";
     public static final String DELETE_COMMAND = "delete";
-    private static Ui ui;
     private static TaskList tasks;
     private static Parser parser;
     public static boolean isProgramRunning = true;
@@ -21,7 +20,7 @@ public class Duke {
 
 
     public static void main(String[] args) {
-        ui = new Ui();
+        Ui ui = new Ui();
         tasks = new TaskList();
         parser = new Parser();
         ui.printIntroMessage();
@@ -43,7 +42,7 @@ public class Duke {
 
                 case (DONE_COMMAND):
                     int index = parser.indexOfTask(command);
-                    tasks.doneCommand(command, index);
+                    tasks.doneCommand(index);
                     break;
 
                 case (TODO_COMMAND):

@@ -18,6 +18,12 @@ public class Ui {
     public static final String MESSAGE_GOODBYE = "Bye! Hope to see you again";
     public static final String MESSAGE_ADDED_TASK = "Got it. I've added this task:";
     public static final String MESSAGE_INVALID_COMMAND = "Sorry but this command cannot be accepted!";
+    public static final String MESSAGE_NULL_COMMAND_P1 = ":( OOPS! The description of ";
+    public static final String MESSAGE_NULL_COMMAND_P2 = " cannot be empty!";
+    public static final String MESSAGE_LINE = "---------------------------";
+    public static final String MESSAGE_DELETED_P1 = "Noted! i have removed this task from your list: ";
+    public static final String MESSAGE_DELETED_P2 = "Now only you have ";
+    public static final String MESSAGE_DELETED_P3 = " task(s) in your list";
     public static String getCommand() {
         Scanner input = new Scanner(System.in);
         return input.nextLine();
@@ -53,11 +59,11 @@ public class Ui {
     }
 
     public void printNullCommandMessage(String commandType) {
-        System.out.println(":( OOPS! The description of " + commandType + " cannot be empty!");
+        System.out.println(MESSAGE_NULL_COMMAND_P1 + commandType + MESSAGE_NULL_COMMAND_P2);
     }
 
     public void printLine() {
-        System.out.println("---------------------------");
+        System.out.println(MESSAGE_LINE);
     }
 
     public void printList(TaskList tasks) {
@@ -68,7 +74,7 @@ public class Ui {
     }
 
     public void printDeletedFromList(TaskList tasks, Task taskDeleted) {
-        System.out.println("Noted! i have removed this task from your list: " + taskDeleted.toString());
-        System.out.println("Now only you have " + tasks.getTaskList().size() + " task(s) in your list");
+        System.out.println(MESSAGE_DELETED_P1+ taskDeleted.toString());
+        System.out.println(MESSAGE_DELETED_P2 + tasks.getTaskList().size() + MESSAGE_DELETED_P3);
     }
 }

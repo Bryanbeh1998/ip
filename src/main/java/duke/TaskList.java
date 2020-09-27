@@ -13,6 +13,7 @@ public class TaskList {
     public static final String TODO_COMMAND = "todo";
     public static final String DEADLINE_COMMAND = "deadline";
     public static final String EVENT_COMMAND = "event";
+    public static final String SLASH_DIVIDER = "/";
     public ArrayList<Task> taskList;
 
     public TaskList() {
@@ -27,7 +28,7 @@ public class TaskList {
         return taskList;
     }
 
-    public void doneCommand(String command, int index) {
+    public void doneCommand(int index) {
         taskList.get(index).markAsDone();
         System.out.println("Nice! I've marked this task as done:" + taskList.get(index).toString());
     }
@@ -36,22 +37,17 @@ public class TaskList {
         Task taskAdded = null;
         if (commandTask == null) {
             throw new NullCommandException();
-
         } else if (commandType.equals(TODO_COMMAND)) {
             taskAdded = new Todo(commandTask);
             taskList.add(taskAdded);
-
-
         } else if (commandType.equals(DEADLINE_COMMAND)) {
-            int indexOfSlash = commandTask.indexOf("/");
+            int indexOfSlash = commandTask.indexOf(SLASH_DIVIDER);
             String task = commandTask.substring(0, indexOfSlash - 1);
             String by = commandTask.substring(indexOfSlash + 4);
             taskAdded = new Deadline(task, by);
             taskList.add(taskAdded);
-
-
         } else if (commandType.equals(EVENT_COMMAND)) {
-            int indexOfSlash = commandTask.indexOf("/");
+            int indexOfSlash = commandTask.indexOf(SLASH_DIVIDER);
             String event = commandTask.substring(0, indexOfSlash - 1);
             String by = commandTask.substring(indexOfSlash + 4);
             taskAdded = new Event(event, by);
