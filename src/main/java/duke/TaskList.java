@@ -20,7 +20,7 @@ public class TaskList {
         this.taskList = new ArrayList<>();
     }
 
-    public TaskList(ArrayList<Task> taskList){
+    public TaskList(ArrayList<Task> taskList) {
         this.taskList = taskList;
     }
 
@@ -33,7 +33,7 @@ public class TaskList {
         System.out.println("Nice! I've marked this task as done:" + taskList.get(index).toString());
     }
 
-    public Task addCommand(String commandType, String command, String commandTask) throws NullCommandException {
+    public Task addCommand(String commandType, String commandTask) throws NullCommandException {
         Task taskAdded = null;
         if (commandTask == null) {
             throw new NullCommandException();
@@ -56,9 +56,24 @@ public class TaskList {
         return taskAdded;
     }
 
-    public Task deleteCommand(String command, int index) {
+    public Task deleteCommand(int index) {
         Task taskDeleted = taskList.get(index);
         taskList.remove(index);
         return taskDeleted;
+    }
+
+    public void findCommand(String commandTask) {
+        ArrayList<Task> searchList = new ArrayList<>();
+
+        for (int i=0; i < taskList.size();i++) {
+            if (taskList.get(i).getDescription().contains(commandTask)) {
+                Task taskToAdd = taskList.get(i);
+                searchList.add(taskToAdd);
+            }
+        }
+        for (int i = 0; i < searchList.size(); i++) {
+            System.out.println((i + 1) + "." + searchList.get(i).toString());
+        }
+
     }
 }

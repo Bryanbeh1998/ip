@@ -13,17 +13,17 @@ public class Duke {
     public static final String DEADLINE_COMMAND = "deadline";
     public static final String EVENT_COMMAND = "event";
     public static final String DELETE_COMMAND = "delete";
-    private static TaskList tasks;
-    private static Parser parser;
+    public static final String FIND_COMMAND = "find";
     public static boolean isProgramRunning = true;
 
 
 
     public static void main(String[] args) {
         Ui ui = new Ui();
-        tasks = new TaskList();
-        parser = new Parser();
+        TaskList tasks = new TaskList();
+        Parser parser = new Parser();
         ui.printIntroMessage();
+        
         while (isProgramRunning) {
             String command = parser.getCommand();
             String commandType = parser.getCommandType(command);
@@ -48,13 +48,16 @@ public class Duke {
                 case (TODO_COMMAND):
                 case (DEADLINE_COMMAND):
                 case (EVENT_COMMAND):
-                    Task taskAdded = tasks.addCommand(commandType, command, commandTask);
+                    Task taskAdded = tasks.addCommand(commandType,commandTask);
                     ui.printAddedNote(taskAdded);
                     break;
                 case (DELETE_COMMAND):
                     index = parser.indexOfTask(command);
-                    Task taskDeleted = tasks.deleteCommand(command, index);
+                    Task taskDeleted = tasks.deleteCommand(index);
                     ui.printDeletedFromList(tasks, taskDeleted);
+                    break;
+                case (FIND_COMMAND):
+                    tasks.findCommand(commandTask);
                     break;
                 default:
                     throw new InvalidCommandException();
