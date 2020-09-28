@@ -17,6 +17,7 @@ public class Duke {
     public static final String EVENT_COMMAND = "event";
     public static final String DELETE_COMMAND = "delete";
     public static final String FIND_COMMAND = "find";
+    public static final String HELP_COMMAND = "help";
     public static boolean isProgramRunning = true;
 
     public static void main(String[] args) {
@@ -56,6 +57,9 @@ public class Duke {
                     break;
                 case (FIND_COMMAND):
                     tasks.findCommand(commandTask);
+                    break;
+                case (HELP_COMMAND):
+                    ui.printHelpMessage();
                     break;
                 default:
                     throw new InvalidCommandException();

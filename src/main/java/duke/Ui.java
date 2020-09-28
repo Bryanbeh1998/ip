@@ -102,10 +102,19 @@ public class Ui {
     /**
      * print task that was deleted from the task list
      * @param tasks Task list of tasks
-     * @param taskDeleted task that has been deleted from text
+     * @param taskDeleted task that has been deleted
      */
     public void printDeletedFromList(TaskList tasks, Task taskDeleted) {
         System.out.println(MESSAGE_DELETED_P1+ taskDeleted.toString());
         System.out.println(MESSAGE_DELETED_P2 + tasks.getTaskList().size() + MESSAGE_DELETED_P3);
+    }
+
+    public void printHelpMessage() {
+        System.out.println("bye - exits the program");
+        System.out.println("todo <description> - adds a task to do into the list");
+        System.out.println("deadline <description> /by <time/date> - adds a task with a deadline of a certain time/date");
+        System.out.println("event <description> /at <place> - adds an event with its location to the task list");
+        System.out.println("delete <index> - deletes the task at the respective index provided");
+        System.out.println("find <description> - returns a list with tasks that contain the description provided");
     }
 }
