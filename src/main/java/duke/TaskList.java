@@ -8,6 +8,9 @@ import duke.tasks.Deadline;
 
 import java.util.ArrayList;
 
+/**
+ * Task list to store data for application
+ */
 public class TaskList {
 
     public static final String TODO_COMMAND = "todo";
@@ -28,11 +31,22 @@ public class TaskList {
         return taskList;
     }
 
+    /**
+     * Marks a task as done
+     * @param index index of task to be marked as done
+     */
     public void doneCommand(int index) {
         taskList.get(index).markAsDone();
         System.out.println("Nice! I've marked this task as done:" + taskList.get(index).toString());
     }
 
+    /**
+     * Adds either Todo,Deadline or Event to Task list
+     * @param commandType String of the type of command (eg Todo,Deadline,Event)
+     * @param commandTask String of the task of the command
+     * @return Task Task that was added to the list
+     * @throws NullCommandException throws exception when there is no command task
+     */
     public Task addCommand(String commandType, String commandTask) throws NullCommandException {
         Task taskAdded = null;
         if (commandTask == null) {
@@ -56,12 +70,21 @@ public class TaskList {
         return taskAdded;
     }
 
+    /**
+     * Deletes a task from the task list
+     * @param index index of task to be deleted
+     * @return task that was deleted
+     */
     public Task deleteCommand(int index) {
         Task taskDeleted = taskList.get(index);
         taskList.remove(index);
         return taskDeleted;
     }
 
+    /**
+     * Returns a list of tasks with the specified keyword the user entered
+     * @param commandTask keyword to search through the list with
+     */
     public void findCommand(String commandTask) {
         ArrayList<Task> searchList = new ArrayList<>();
 
