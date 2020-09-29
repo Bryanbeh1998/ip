@@ -67,6 +67,7 @@ public class TaskList {
             taskAdded = new Event(event, by);
             taskList.add(taskAdded);
         }
+
         return taskAdded;
     }
 
@@ -98,5 +99,9 @@ public class TaskList {
             System.out.println((i + 1) + "." + searchList.get(i).toString());
         }
 
+    }
+
+    public void printNumOfTasksInList(TaskList tasks) {
+        System.out.println("Now you have " + taskList.size() + " task(s) in your list!");
     }
 }

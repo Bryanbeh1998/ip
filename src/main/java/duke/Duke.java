@@ -4,6 +4,8 @@ import duke.tasks.Task;
 import duke.exceptions.NullCommandException;
 import duke.exceptions.InvalidCommandException;
 
+import java.io.IOException;
+
 /**
  * Initialises the Duke application and start interacting with the user
  */
@@ -19,11 +21,13 @@ public class Duke {
     public static final String FIND_COMMAND = "find";
     public static final String HELP_COMMAND = "help";
     public static boolean isProgramRunning = true;
+    public static final String FILE_PATH = "data/duke.txt";
 
     public static void main(String[] args) {
         Ui ui = new Ui();
         TaskList tasks = new TaskList();
         Parser parser = new Parser();
+        Storage storage = new Storage(FILE_PATH);
         ui.printIntroMessage();
 
         while (isProgramRunning) {
@@ -43,17 +47,21 @@ public class Duke {
                 case (DONE_COMMAND):
                     int index = parser.indexOfTask(command);
                     tasks.doneCommand(index);
+
                     break;
                 case (TODO_COMMAND):
                 case (DEADLINE_COMMAND):
                 case (EVENT_COMMAND):
                     Task taskAdded = tasks.addCommand(commandType,commandTask);
                     ui.printAddedNote(taskAdded);
+                    tasks.printNumOfTasksInList(tasks);
+
                     break;
                 case (DELETE_COMMAND):
                     index = parser.indexOfTask(command);
                     Task taskDeleted = tasks.deleteCommand(index);
                     ui.printDeletedFromList(tasks, taskDeleted);
+
                     break;
                 case (FIND_COMMAND):
                     tasks.findCommand(commandTask);
@@ -69,6 +77,7 @@ public class Duke {
             } catch (InvalidCommandException e) {
                 ui.printInvalidCommandMessage();
             }
+
         }
     }
 }
