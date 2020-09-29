@@ -1,7 +1,7 @@
 # User Guide
 
 ## Features 
-###Duke is a platform to keep track and organise your tasks
+### Duke is a platform to keep track and organise your tasks
 Duke can keep track of your todos,events and deadlines. Furthermore, Duke can show the
 full list and implement helpful commands such as deleting tasks, marking tasks as 
 done and  finding tasks
