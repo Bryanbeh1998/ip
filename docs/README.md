@@ -9,7 +9,9 @@ done and  finding tasks
 
 ## Usage
 
-### `todo <description>` - Adds a Todo item
+### Adds a Todo item
+
+### `todo <description>` 
 
 Adds a todo item with the description, then it adds to the list of tasks
 
@@ -26,7 +28,9 @@ Expected outcome:
 `Now you have 1 task(s) in your list!'`
 
 
-### `deadline <description> /by <date>` - Adds a deadline item
+### Adds a Deadline item
+
+### `deadline <description> /by <date>` 
 
 Adds a deadline item with the description and the deadline date,then it adds to the list of tasks
 
@@ -42,8 +46,10 @@ A message indicating the task has been added and the number of tasks in the list
  
  `Now you have 2 task(s) in your list!`
  
+ 
+### Adds an Event item
 
-### `event <description> /at <startDate>` - Adds an event item
+### `event <description> /at <startDate>`
 
 Adds an event item with the description and the start date,then it adds to the list of tasks
 
@@ -60,7 +66,9 @@ A message indicating the task has been added and the number of tasks in the list
 `Now you have 3 task(s) in your list!`
 
 
-### `list` - Shows the list of tasks
+### Shows the list of tasks
+
+### `list` 
 
 Produces a list of all the tasks in the list at that instance
 
@@ -79,7 +87,9 @@ Produces a list of all the tasks in the list at that instance
 `3.[E][PENDING] basketball competition (at: 9 Jan)`
 
 
-### `delete <index>` - Deletes a task from the task list
+### Deletes a task from the task list
+
+### `delete <index>` 
 
 Deletes a task of the given index from the task list.
 
@@ -97,7 +107,9 @@ of tasks in the list will be shown.
 ` Now only you have 2 task(s) in your list`
 
 
-### `done <index>` - Marks task as done
+### Marks a task as done
+
+### `done <index>` 
 
 Marks a task of the given index as done in the task list.
 
@@ -115,11 +127,12 @@ of tasks in the list will be shown.
  `Now you have 2 task(s) in your list!`
  
  
- ### `find <description>` - List all tasks which contain the description
+ ### List all tasks that contain the description
+ 
+ ### `find <description>`
  
  Finds all tasks which contains the given description. Duke then prints it all in a list and
  returns it to the user.
- 
  
   Example of usage: 
   
@@ -130,7 +143,9 @@ of tasks in the list will be shown.
  ` 1.[D][DONE] ip (by: 2 Oct)`
  
  
-  ### `bye`- Exits the program
+ ### Exits the program
+ 
+ ### `bye`
   
  Ends and exits the application
   
